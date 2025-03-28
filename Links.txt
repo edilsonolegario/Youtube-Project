@@ -1,0 +1,6 @@
+YOUTUBE
+https://www.youtube.com/watch?v=3YbLaQINtEI&list=PLaBeGKL1tOU0pbIVu1I3ZcBZ7BJkN0isz&index=2
+
+
+Tailwind CSS
+https://tailwindcss.com/docs/installation/using-vite
