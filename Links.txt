@@ -4,3 +4,26 @@ https://www.youtube.com/watch?v=3YbLaQINtEI&list=PLaBeGKL1tOU0pbIVu1I3ZcBZ7BJkN0
 
 Tailwind CSS
 https://tailwindcss.com/docs/installation/using-vite
+
+
+Milhões de Filmes, Séries e Pessoas para Descobrir. Explore já.
+https://www.themoviedb.org/
+
+ID: edilsonolegario - 190*******
+
+API Delivery
+https://axios-http.com/docs/intro
+
+Scrollbar Plugin for Tailwind CSS
+https://www.npmjs.com/package/tailwindcss-no-scrollbar
+
+// tailwind.config.js
+module.exports = {
+    plugins: [
+        require('tailwindcss-no-scrollbar')
+    ]
+}
+
+<div class="overflow-x-auto whitespace-nowrap w-24 scrollbar-none">
+    Some long text which will overflow for sure. Please is it enough? Surely.
+</div>
