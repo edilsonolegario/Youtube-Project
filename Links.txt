@@ -27,3 +27,6 @@ module.exports = {
 <div class="overflow-x-auto whitespace-nowrap w-24 scrollbar-none">
     Some long text which will overflow for sure. Please is it enough? Surely.
 </div>
+
+React Icons
+https://react-icons.github.io/react-icons/
