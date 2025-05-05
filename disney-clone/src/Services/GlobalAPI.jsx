@@ -5,7 +5,7 @@ const baseUrl = 'https://api.themoviedb.org/3';
 const apiKey = '518e37a8923580e9d6e4bcc45b84a104';
 const bearerToken = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MThlMzdhODkyMzU4MGU5ZDZlNGJjYzQ1Yjg0YTEwNCIsInN1YiI6IjY3ZWU4ZWU4MWQxY2NmNWY0ZjYyYWJlMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HuD-yp1nzbWwLNc60B1G9QPFZ436uAWBx7EcbHL-Vcw';
 
-// Create axios instance with default configuration
+// Axios instance using Bearer token (still used for some endpoints)
 const tmdbApi = axios.create({
   baseURL: baseUrl,
   headers: {
@@ -14,14 +14,17 @@ const tmdbApi = axios.create({
   }
 });
 
-// API functions
-const getTrendingVideos = (timeWindow = 'day') => {
-  // timeWindow can be 'day' or 'week'
-  return tmdbApi.get(`/trending/movie/${timeWindow}`, {
-    params: { api_key: apiKey }
-  });
+// ✅ Trending videos using full URL with API key (adapted)
+const getTrendingVideos = () => {
+  return axios.get(`${baseUrl}/trending/all/day?api_key=${apiKey}`);
 };
 
+// ✅ Movie by genre using full URL with API key
+const getMovieByGenreId = (genreId) => {
+  return axios.get(`${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=${genreId}`);
+};
+
+// ✅ Token-auth endpoints (still using tmdbApi instance)
 const getMovieDetails = (movieId) => {
   return tmdbApi.get(`/movie/${movieId}`, {
     params: { api_key: apiKey }
@@ -38,7 +41,7 @@ const searchMovies = (query, page = 1) => {
   });
 };
 
-// Usage examples
+// ✅ Async helpers
 const fetchTrendingMovies = async () => {
   try {
     const response = await getTrendingVideos();
@@ -61,9 +64,11 @@ const fetchMovieById = async (movieId) => {
   }
 };
 
-export default{
+// ✅ Export
+export default {
   tmdbApi,
   getTrendingVideos,
+  getMovieByGenreId,
   getMovieDetails,
   searchMovies,
   fetchTrendingMovies,
