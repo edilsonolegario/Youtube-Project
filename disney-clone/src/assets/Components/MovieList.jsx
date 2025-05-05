@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
-import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
-import GlobalAPI from '../../Services/GlobalAPI'
+import React, { useEffect, useState } from 'react';
+import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
+import GlobalAPI from '../../Services/GlobalAPI';
 import MovieCard from './MovieCard';
 
+const ITEMS_PER_PAGE = 6;
+
 function MovieList({ genreId }) {
-    const [movieList, setMovieList] = React.useState([]);
-    const elementRef = React.useRef(null);
-    const screenWidth = window.innerWidth;
+    const [movieList, setMovieList] = useState([]);
+    const [startIndex, setStartIndex] = useState(0);
 
     useEffect(() => {
         getMovieByGenreId();
@@ -15,18 +16,20 @@ function MovieList({ genreId }) {
     const getMovieByGenreId = () => {
         GlobalAPI.getMovieByGenreId(genreId).then((res) => {
             setMovieList(res.data.results);
+            setStartIndex(0); // Reset slider on genre change
         });
     };
 
     const sliderRight = () => {
-        if (elementRef.current) {
-            elementRef.current.scrollLeft += screenWidth - 110;
+        const maxIndex = movieList.length - ITEMS_PER_PAGE;
+        if (startIndex < maxIndex) {
+            setStartIndex((prevIndex) => prevIndex + 1);
         }
     };
 
     const sliderLeft = () => {
-        if (elementRef.current) {
-            elementRef.current.scrollLeft -= screenWidth - 110;
+        if (startIndex > 0) {
+            setStartIndex((prevIndex) => prevIndex - 1);
         }
     };
 
@@ -41,17 +44,21 @@ function MovieList({ genreId }) {
                 onClick={sliderRight}
             />
 
-            <div
-                className="flex overflow-x-auto w-full scrollbar-hide"
-                ref={elementRef}
-                style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                }}
-            >
-                <div className='flex gap-8 scrollbar-none scroll-smooth pt-4 px-3 pb-4'>
-                    {movieList.map((item, index) => index<5&& (
-                        <MovieCard key={index} movie={item} />
+            <div className="flex overflow-hidden w-full">
+                <div
+                    className="flex transition-transform duration-300"
+                    style={{
+                        transform: `translateX(-${(100 / ITEMS_PER_PAGE) * startIndex}%)`,
+                        width: `${(movieList.length / ITEMS_PER_PAGE) * 100}%`, // Ensures all items are in one long row
+                    }}
+                >
+                    {movieList.map((item) => (
+                        <div
+                            key={item.id}
+                            className="w-[calc(100%/6)] px-4 shrink-0"
+                        >
+                            <MovieCard movie={item} isLarge={true} />
+                        </div>
                     ))}
                 </div>
             </div>
@@ -60,3 +67,4 @@ function MovieList({ genreId }) {
 }
 
 export default MovieList;
+
