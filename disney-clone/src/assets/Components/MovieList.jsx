@@ -16,7 +16,7 @@ function MovieList({ genreId }) {
     const getMovieByGenreId = () => {
         GlobalAPI.getMovieByGenreId(genreId).then((res) => {
             setMovieList(res.data.results);
-            setStartIndex(0); // Reset slider on genre change
+            setStartIndex(0);
         });
     };
 
@@ -49,7 +49,7 @@ function MovieList({ genreId }) {
                     className="flex transition-transform duration-300"
                     style={{
                         transform: `translateX(-${(100 / ITEMS_PER_PAGE) * startIndex}%)`,
-                        width: `${(movieList.length / ITEMS_PER_PAGE) * 100}%`, // Ensures all items are in one long row
+                        width: `${(movieList.length / ITEMS_PER_PAGE) * 100}%`,
                     }}
                 >
                     {movieList.map((item) => (
